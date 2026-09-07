@@ -1,9 +1,28 @@
 # Copyright Spack Project Developers. See COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-from typing import List, Optional, Tuple
+import os
+import shutil
+from typing import Iterable, List, Optional, Tuple
 
-from spack.package import ClassProperty, classproperty, depends_on, extends, mkdirp, register_builder, BuilderWithDefaults, Spec, Prefix, build_system, variant, when, HeaderList, LibraryList
+from spack.package import (
+    BuilderWithDefaults,
+    ClassProperty,
+    HeaderList,
+    LibraryList,
+    Prefix,
+    Spec,
+    build_system,
+    classproperty,
+    depends_on,
+    extends,
+    join_path,
+    mkdirp,
+    register_builder,
+    tty,
+    variant,
+    when,
+)
 
 from .generic import GenericBuilder, Package
 
@@ -135,6 +154,8 @@ class RCollectiveBuilder(BuilderWithDefaults):
         # Add R packages belonging to this R interpreter.
         #
         extensions = self._r_extensions(spec, r_spec)
+        collective_lib_dir = self._collective_r_lib_dir(prefix, r_spec)
+        mkdirp(collective_lib_dir)
 
         for extension in extensions:
             tty.info(
@@ -142,21 +163,60 @@ class RCollectiveBuilder(BuilderWithDefaults):
                     extension.format("{name}@{version}/{hash:7}")
                 )
             )
+            self._materialize_extension_library(extension, collective_lib_dir, r_spec)
 
 
         self._write_manifest(spec, prefix, r_spec, extensions)
 
-    def _r_extensions(self, root_spec: Spec, python_spec: Spec) -> List[Spec]:
+    def _collective_r_lib_dir(self, prefix: Prefix, r_spec: Spec) -> str:
+        return join_path(prefix, r_spec.package.r_lib_dir)
+
+    def _materialize_extension_library(
+        self, extension: Spec, collective_lib_dir: str, r_spec: Spec
+    ) -> None:
+        extension_lib_dir = join_path(extension.prefix, r_spec.package.r_lib_dir)
+        if not os.path.isdir(extension_lib_dir):
+            return
+
+        for entry in sorted(os.listdir(extension_lib_dir)):
+            src = join_path(extension_lib_dir, entry)
+            dst = join_path(collective_lib_dir, entry)
+            if os.path.isdir(src):
+                shutil.copytree(src, dst, symlinks=True, dirs_exist_ok=True)
+            elif os.path.islink(src):
+                self._remove_path(dst)
+                shutil.copy2(src, dst, follow_symlinks=False)
+            else:
+                self._remove_path(dst)
+                shutil.copy2(src, dst)
+
+    def _remove_path(self, path: str) -> None:
+        if not os.path.lexists(path):
+            return
+
+        if os.path.isdir(path) and not os.path.islink(path):
+            shutil.rmtree(path)
+            return
+
+        os.unlink(path)
+
+    def _extension_deps(self, root_spec: Spec) -> Iterable[Spec]:
+        if "+transitive" in root_spec:
+            return root_spec.traverse(root=False, deptype=("link", "run"))
+
+        return root_spec.dependencies(deptype=("link", "run"))
+
+    def _r_extensions(self, root_spec: Spec, r_spec: Spec) -> List[Spec]:
         """Return R extensions belonging to this collective's R."""
 
         extensions = []
 
-        #
-        # traverse() includes transitive dependencies.
-        #
-        for dep in root_spec.traverse(root=False):
+        for dep in self._extension_deps(root_spec):
 
             if dep.name == "r":
+                continue
+
+            if not dep.name.startswith("r-"):
                 continue
 
             #
@@ -169,7 +229,7 @@ class RCollectiveBuilder(BuilderWithDefaults):
 
             #
             # Python packages are extensions. Determine whether this package
-            # extends Python.
+            # extends R.
             #
             try:
                 extendee_spec = dep_pkg.extendee_spec
