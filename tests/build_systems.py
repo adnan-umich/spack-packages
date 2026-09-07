@@ -481,16 +481,20 @@ def test_r_collective_materializes_extension_library(tmp_path: pathlib.Path):
     (package_dir / "DESCRIPTION").write_text("Package: foo\nVersion: 1.2.3\n", encoding="utf-8")
     (package_dir / "README").write_text("collective test\n", encoding="utf-8")
     os.symlink("README", package_dir / "README.link")
+    (extension_library / "PACKAGES").write_text("foo\n", encoding="utf-8")
+    os.symlink("PACKAGES", extension_library / "PACKAGES.link")
 
     extension = SimpleNamespace(prefix=str(extension_prefix))
     r_spec = SimpleNamespace(package=SimpleNamespace(r_lib_dir="rlib/R/library"))
     collective_lib_dir = tmp_path / "collective" / "rlib" / "R" / "library"
     collective_lib_dir.mkdir(parents=True)
+    (collective_lib_dir / "PACKAGES.link").write_text("stale\n", encoding="utf-8")
 
     builder._materialize_extension_library(extension, str(collective_lib_dir), r_spec)
 
     assert (collective_lib_dir / "foo" / "DESCRIPTION").is_file()
     assert os.path.islink(collective_lib_dir / "foo" / "README.link")
+    assert os.path.islink(collective_lib_dir / "PACKAGES.link")
 
 
 def test_r_collective_extensions_filter_and_sort(monkeypatch):

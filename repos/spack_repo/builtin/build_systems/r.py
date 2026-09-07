@@ -184,9 +184,21 @@ class RCollectiveBuilder(BuilderWithDefaults):
             if os.path.isdir(src):
                 shutil.copytree(src, dst, symlinks=True, dirs_exist_ok=True)
             elif os.path.islink(src):
+                self._remove_path(dst)
                 shutil.copy2(src, dst, follow_symlinks=False)
             else:
+                self._remove_path(dst)
                 shutil.copy2(src, dst)
+
+    def _remove_path(self, path: str) -> None:
+        if not os.path.lexists(path):
+            return
+
+        if os.path.isdir(path) and not os.path.islink(path):
+            shutil.rmtree(path)
+            return
+
+        os.unlink(path)
 
     def _extension_deps(self, root_spec: Spec) -> Iterable[Spec]:
         if "+transitive" in root_spec:
