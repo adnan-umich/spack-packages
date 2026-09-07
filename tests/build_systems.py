@@ -7,9 +7,10 @@ import pathlib
 import platform
 import re
 import shutil
+from types import SimpleNamespace
 
 import pytest
-from spack_repo.builtin.build_systems import autotools, cmake
+from spack_repo.builtin.build_systems import autotools, cmake, r as r_build_system
 
 import spack.platforms.test
 from spack.build_environment import setup_package
@@ -468,3 +469,57 @@ def test_autoreconf_search_path_dont_repeat(default_mock_concretization, tmp_pat
     build_dep_one.external_path = str(tmp_path / "prefix")
     build_dep_two.external_path = str(tmp_path / "prefix")
     assert autotools._autoreconf_search_path_args(spec) == ["-I", str(aclocal)]
+
+
+def test_r_collective_materializes_extension_library(tmp_path: pathlib.Path):
+    builder = object.__new__(r_build_system.RCollectiveBuilder)
+
+    extension_prefix = tmp_path / "ext"
+    extension_library = extension_prefix / "rlib" / "R" / "library"
+    package_dir = extension_library / "foo"
+    package_dir.mkdir(parents=True)
+    (package_dir / "DESCRIPTION").write_text("Package: foo\nVersion: 1.2.3\n", encoding="utf-8")
+
+    extension = SimpleNamespace(prefix=str(extension_prefix))
+    r_spec = SimpleNamespace(package=SimpleNamespace(r_lib_dir="rlib/R/library"))
+    collective_lib_dir = tmp_path / "collective" / "rlib" / "R" / "library"
+    collective_lib_dir.mkdir(parents=True)
+
+    builder._materialize_extension_library(extension, str(collective_lib_dir), r_spec)
+
+    assert (collective_lib_dir / "foo" / "DESCRIPTION").is_file()
+
+
+def test_r_collective_extensions_filter_and_sort(monkeypatch):
+    builder = object.__new__(r_build_system.RCollectiveBuilder)
+
+    class FakeDep:
+        def __init__(self, name, version, dep_hash, extendee_name="r", r_hash="rh123456"):
+            self.name = name
+            self.version = version
+            self._hash = dep_hash
+            self.package = SimpleNamespace(extendee_spec=SimpleNamespace(name=extendee_name))
+            self._r_hash = r_hash
+
+        def __getitem__(self, key):
+            if key != "r":
+                raise KeyError
+            return SimpleNamespace(dag_hash=lambda: self._r_hash)
+
+        def dag_hash(self):
+            return self._hash
+
+    deps = [
+        FakeDep("r-zpkg", "1.0.0", "hashz"),
+        FakeDep("r-apkg", "2.0.0", "hasha"),
+        FakeDep("x-tool", "1.0.0", "hashx"),
+        FakeDep("r-wrong-extendee", "1.0.0", "hashw", extendee_name="python"),
+        FakeDep("r-wrong-r", "1.0.0", "hashr", r_hash="different"),
+    ]
+
+    monkeypatch.setattr(builder, "_extension_deps", lambda _root_spec: deps)
+
+    r_spec = SimpleNamespace(dag_hash=lambda: "rh123456")
+    extensions = builder._r_extensions(SimpleNamespace(), r_spec)
+
+    assert [x.name for x in extensions] == ["r-apkg", "r-zpkg"]
