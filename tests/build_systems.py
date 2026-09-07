@@ -479,6 +479,8 @@ def test_r_collective_materializes_extension_library(tmp_path: pathlib.Path):
     package_dir = extension_library / "foo"
     package_dir.mkdir(parents=True)
     (package_dir / "DESCRIPTION").write_text("Package: foo\nVersion: 1.2.3\n", encoding="utf-8")
+    (package_dir / "README").write_text("collective test\n", encoding="utf-8")
+    os.symlink("README", package_dir / "README.link")
 
     extension = SimpleNamespace(prefix=str(extension_prefix))
     r_spec = SimpleNamespace(package=SimpleNamespace(r_lib_dir="rlib/R/library"))
@@ -488,6 +490,7 @@ def test_r_collective_materializes_extension_library(tmp_path: pathlib.Path):
     builder._materialize_extension_library(extension, str(collective_lib_dir), r_spec)
 
     assert (collective_lib_dir / "foo" / "DESCRIPTION").is_file()
+    assert os.path.islink(collective_lib_dir / "foo" / "README.link")
 
 
 def test_r_collective_extensions_filter_and_sort(monkeypatch):

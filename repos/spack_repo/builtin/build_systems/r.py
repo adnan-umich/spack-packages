@@ -183,6 +183,8 @@ class RCollectiveBuilder(BuilderWithDefaults):
             dst = join_path(collective_lib_dir, entry)
             if os.path.isdir(src):
                 shutil.copytree(src, dst, symlinks=True, dirs_exist_ok=True)
+            elif os.path.islink(src):
+                shutil.copy2(src, dst, follow_symlinks=False)
             else:
                 shutil.copy2(src, dst)
 
