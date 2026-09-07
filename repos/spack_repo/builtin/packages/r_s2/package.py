@@ -21,6 +21,7 @@ class RS2(RPackage):
 
     license("Apache-2.0")
 
+    version("1.1.12", sha256="ec3cebd5f9dcacf7398a0b7a3c1e41d57f9cacfb1c6503b0e6acf19fcfa5c41e")
     version("1.1.7", sha256="30762c7150dd72e2f4a3d50e64b8b73b2d59b73275687ba3eea7a6e07f786878")
     version("1.1.2", sha256="8fb237531c6f4aa5b78fbe36d4fd15bfe852c1308fed58b04b3dae2bb73c0b57")
     version("1.1.0", sha256="e3aae968538fe80db5b3325474dd9d8ff7f0452b6c606d049a3cac72732ac416")

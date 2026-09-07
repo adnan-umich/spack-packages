@@ -3,6 +3,9 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 from typing import List, Optional, Tuple
 
+import spack.llnl.util.tty as tty
+from spack.package import join_path
+
 from spack.package import ClassProperty, classproperty, depends_on, extends, mkdirp, register_builder, BuilderWithDefaults, Spec, Prefix, build_system, variant, when, HeaderList, LibraryList
 
 from .generic import GenericBuilder, Package
@@ -146,7 +149,7 @@ class RCollectiveBuilder(BuilderWithDefaults):
 
         self._write_manifest(spec, prefix, r_spec, extensions)
 
-    def _r_extensions(self, root_spec: Spec, python_spec: Spec) -> List[Spec]:
+    def _r_extensions(self, root_spec: Spec, r_spec: Spec) -> List[Spec]:
         """Return R extensions belonging to this collective's R."""
 
         extensions = []

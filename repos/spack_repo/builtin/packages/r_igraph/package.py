@@ -18,6 +18,7 @@ class RIgraph(RPackage):
 
     license("GPL-2.0-or-later")
 
+    version("2.3.3", sha256="942522d815eb1de840d5cdc60745dab8f815398cda279dd4bd98444b0c07a699")
     version("2.0.3", sha256="8e8a172d4567219474562cfb1085496be3ab356483c4e88011aca1fc3b2d8f76")
     version("1.4.2", sha256="7d5300adb1a25a6470cada8630e35ef416181147ab624d5a0a8d3552048c4ae5")
     version("1.3.5", sha256="9e615d67b6b5b57dfa54ec2bbc8c29da8f7c3fe82af1e35ab27273b1035b9bd4")

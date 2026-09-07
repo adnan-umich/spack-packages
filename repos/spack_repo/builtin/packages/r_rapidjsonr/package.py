@@ -17,6 +17,7 @@ class RRapidjsonr(RPackage):
 
     license("MIT")
 
+    version("1.2.1", sha256="bd447155af45c812e97d2e9f25faebd4aed0acc4a11c8d002bc50549c50a448c")
     version("1.2.0", sha256="62c94fcdcf5d0fbdfa2f6168affe526bf547c37c16d94e2e1b78d7bf608eed1f")
 
     depends_on("gmake", type="build")

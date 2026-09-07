@@ -28,7 +28,11 @@ class ROpenstreetmap(RPackage):
     version("0.2", sha256="18148e3f48b7d6c5e68c85185763b186091f30026c8be9e8cc0d8576cc3b6794")
 
     with default_args(type=("build", "run")):
+        depends_on("r@4.2.0:", when="@0.4.1:")
+        depends_on("r-ggplot2@0.9.0:", when="@0.4.1:")
+        depends_on("r-rjava", when="@0.4.1:")
+        depends_on("r-raster", when="@0.4.1:")
+        depends_on("r-sp", when="@0.4.1:")
         depends_on("r-stars")
         depends_on("r-tmaptools")
         depends_on("r-trajectories")
-

@@ -35,5 +35,5 @@ class RLwgeom(RPackage):
     depends_on("r-sf@0.9-3:", type=("build", "run"), when="@0.2-4:")
     depends_on("r-sf@1.0-15:", type=("build", "run"), when="@0.2-14:")
     depends_on("geos@3.5.0:")
-    depends_on("proj@4.8.0:6.999")
+    depends_on("proj")
     depends_on("sqlite", when="@0.2-8:")

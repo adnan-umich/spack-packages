@@ -6,8 +6,8 @@ spack:
   config:
       install_tree:
         root: /sw/spack/opt/pkgs
-  mirrors:
-    buildcache: file:///sw/spack/buildcache
+  #mirrors:
+  #  buildcache: file:///sw/spack/buildcache
   view: false
   specs:
   ##########################################################################################
@@ -68,6 +68,7 @@ spack:
     - ncview ^libxaw@1.0.15 ^netcdf-c~mpi~parallel-netcdf ^hdf5~mpi@1.14.6
     - gh
     - nvtop
+    - gdal/wj3bifx
     override:
       packages:
         c:
@@ -148,12 +149,14 @@ spack:
       lmod:
         projections:
           r: 'R/{version}'
+          hdf5~threadsafe+mpi: 'phdf5/{version}-nonatomic'
           hdf5~threadsafe: 'hdf5/{version}-nonatomic'
           intel-oneapi-compilers-classic: 'intel/{version}'
           miniforge3: 'mamba/{version}'
           py-mpi4py: 'mpi4py/{version}'
           intel-oneapi-mpi: 'impi/{version}'
           gh: 'github-cli/{version}'
+          hdf5+mpi: 'phdf5/{version}'
         glew:
           suffixes:
             '^glx': glx

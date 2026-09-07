@@ -18,9 +18,14 @@ class RSpatstatUnivar(RPackage):
 
     license("GPL-2.0-or-later", checked_by="wdconinc")
 
+    version("3.2-0", sha256="8d2e7e69ab09e563ae902f21045cdfcd58a8fc0664150eac2ef712516cda7b0b")
     version("3.0-0", sha256="00bc501d9bec32231207f0562433193bd680606ce465131caa5e2704b4ff4771")
 
     depends_on("c", type="build")  # generated
 
     depends_on("r@3.5.0:", type=("build", "run"), when="@3.0-0:")
     depends_on("r-spatstat-utils@3.0-5:", type=("build", "run"), when="@2.0-3.011:")
+
+    with when("@3.2-0:"):
+        with default_args(type=("build", "run")):
+            depends_on("r-spatstat-utils@3.2-3:")

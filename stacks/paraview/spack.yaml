@@ -37,6 +37,7 @@ spack:
           gh: 'github-cli/{version}'
           paraview~mpi~cuda: 'paraview/{version}-nompicuda'
         hash_length: 0
+        hide_implicits: true
         all:
           suffixes:
             'binutils target=x86_64': x86_64

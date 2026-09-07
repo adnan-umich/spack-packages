@@ -21,6 +21,7 @@ class RZoo(RPackage):
 
     license("GPL-2.0-only OR GPL-3.0-only")
 
+    version("1.8-15", sha256="c0d139b7d3dee4f28202bc8d82fd76109af26530c43e39a051b1eb145d1861ea")
     version("1.8-12", sha256="e6c3862668f9e3422bced3b6fba485c76a1e91b48f5d6153822d6a61863b2fb8")
     version("1.8-11", sha256="848e50f875afe06f13422e32160082b0725159a8be98234ef358480e57029ca5")
     version("1.8-10", sha256="c9a282d8004c22651c4fa1d657d3cad946c5ec55c4dc068569d860ee9b31ed47")

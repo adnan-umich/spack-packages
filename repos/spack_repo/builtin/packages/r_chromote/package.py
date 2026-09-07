@@ -26,3 +26,18 @@ class RChromote(RPackage):
     version("0.1.1", sha256="f89427addeb2a990906a2ef541d2690ac69de91ec38a094feb4560b6ada64929")
     version("0.1.0", sha256="3edc1c349352bdcb5fx3974c350668473440809badf70e11e29b41c5ede67a06c")
 
+    with when("@0.5.1:"):
+        with default_args(type=("build", "run")):
+            depends_on("r-cli")
+            depends_on("r-curl")
+            depends_on("r-fastmap")
+            depends_on("r-jsonlite")
+            depends_on("r-later@1.1.0:")
+            depends_on("r-magrittr")
+            depends_on("r-processx")
+            depends_on("r-promises@1.1.1:")
+            depends_on("r-r6")
+            depends_on("r-rlang@1.1.0:")
+            depends_on("r-websocket@1.2.0:")
+            depends_on("r-withr")
+            depends_on("r-zip")

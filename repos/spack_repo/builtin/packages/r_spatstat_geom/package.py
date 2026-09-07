@@ -27,6 +27,7 @@ class RSpatstatGeom(RPackage):
 
     cran = "spatstat.geom"
 
+    version("3.8-2", sha256="efe1b8e78e9a448106ad6b9e662b2ff9af2ab2711b6e615323a8ef30ce1d6dfb")
     version("3.3-2", sha256="cbc08a6924edbf0f1ea104136d5b2200caeecbd6c2cb4d55d4f56af9beea570f")
     version("3.1-0", sha256="184a96679babcbff4897c5a471e034eb1bb7127c6cf668e8cc2c2c74bdea47fe")
     version("3.0-3", sha256="6e5b56c60e774a0cdcaa5a8ffde071225f233832446a341588bd8a7840913c84")
@@ -46,3 +47,11 @@ class RSpatstatGeom(RPackage):
     depends_on("r-spatstat-utils@3.0-5:", type=("build", "run"), when="@3.3-2:")
     depends_on("r-deldir@1.0-2:", type=("build", "run"))
     depends_on("r-polyclip@1.10-0:", type=("build", "run"))
+
+    with when("@3.8-2:"):
+        with default_args(type=("build", "run")):
+            depends_on("r-spatstat-data@3.1-9:")
+            depends_on("r-spatstat-univar@3.2-0:")
+            depends_on("r-spatstat-utils@3.2-4:")
+            depends_on("r-deldir@2.0-2:")
+            depends_on("r-polyclip@1.10:")
