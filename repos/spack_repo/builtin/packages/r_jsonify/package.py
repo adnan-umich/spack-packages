@@ -19,6 +19,7 @@ class RJsonify(RPackage):
 
     license("MIT")
 
+    version("1.2.3", sha256="137a1e527a9cd24e646f9ce76a999aeef7753e7b90c0167adbdd737048d90e46")
     version("1.2.2", sha256="3745e962592f021a3deaed8b2f6b99c4f7181f28e095300a96d1c2b08af4af2f")
     version("1.2.1", sha256="929191ab32e34af6a02ad991e29314cc78ea40763fcf232388ef2d132137fbce")
 

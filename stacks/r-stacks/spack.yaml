@@ -14,10 +14,11 @@ spack:
   - group: R stacks
     specs:
     - matrix:
-      - - rtidyverse@2.0.0 ^r@4.5.3
-        - rgeospatial@1.5-18 ^r@4.5.3 ^libtiff@4.7.1 ^rtidyverse@2.0.0 ^gdal ^poppler@21.09.0 ^proj@9.7.0 ^geos@3.14.1 ^netcdf-fortran@4.6.2 ^hdf5@1.14.6 ^openjdk
-        - rtidyverse@2.0.0 ^r@4.6.1
-        - rgeospatial@1.5-18 ^r@4.6.1 ^libtiff@4.7.1 ^rtidyverse@2.0.0 ^gdal ^poppler@21.09.0 ^proj@9.7.0 ^geos@3.14.1 ^netcdf-fortran@4.6.2 ^hdf5@1.14.6 ^openjdk
+      - - rtidyverse@2.0.0_R4.5.3 ^r/w4z6lu4 ^meson/mydduah
+        - rgeospatial@1.5-18_R4.5.3 ^r/w4z6lu4 ^libtiff@4.7.1 ^gdal/wj3bifx ^poppler@21.09.0 ^proj@9.7.0 ^geos@3.14.1 ^netcdf-fortran@4.6.2 ^hdf5@1.14.6 ^openjdk ^meson/mydduah
+        - rtidyverse@2.0.0_R4.6.1 ^r/hsmq64i ^meson/mydduah
+        - rgeospatial@1.5-18_R4.6.1 ^r/hsmq64i ^libtiff@4.7.1 ^gdal/wj3bifx ^poppler@21.09.0 ^proj@9.7.0 ^geos@3.14.1 ^netcdf-fortran@4.6.2 ^hdf5@1.14.6 ^openjdk ^meson/mydduah
+        - r-seurat@5.5.1 ^r@4.6.1/hsmq64i ^r-reticulate@1.46.0 ^r-dotcall64@1.2
       - - '%c,cxx=gcc@14.3.1'
     override:
       packages:
@@ -36,6 +37,30 @@ spack:
         r:
           require:
           - +arc
+        r-proxy:
+          require: ['@0.4-29']
+        r-rpart:
+          require: ['@4.1.27']
+        r-geometries:
+          require: ['@0.2.5']
+        r-zoo:
+          require: ['@1.8-15']
+        r-igraph:
+          require: ['@2.3.3']
+        r-spatstat-random:
+          require: ['@3.5-1']
+        r-maps:
+          require: ['@3.4.3']
+        r-jsonify:
+          require: ['@1.2.3']
+        r-s2:
+          require: ['@1.1.12']
+        r-rcpp:
+          require: ['@1.1.0:']
+        r-rapidjsonr:
+          require: ['@1.2.1:']
+        r-cpp11:
+          require: ['@0.5.0:']
         gdal:
           require:
           - +blosc+arrow+hdf4+hdf5+liblzma+libxml2+poppler+parquet+libaec+zstd+webp+sfcgal+pcre2+lz4+deflate+avif+freexl+jxl+heif
@@ -56,8 +81,17 @@ spack:
         highway:
           prefer:
           - "@1.0.7"
+        meson:
+          prefer:
+          - "/mydduah"
+        curl:
+          require:
+          - "/zhvfjjx"
+        r-curl^r@4.5.3:
+          require:
+          - "/rahzyli"
   concretizer:
-    unify: when_possible
+    unify: false
     reuse: true
     ##########################################################################################
     #                                         Modules                                        #
@@ -75,6 +109,7 @@ spack:
           miniforge3: mamba/{version}
           py-mpi4py: mpi4py/{version}
         hash_length: 0
+        #hide_implicits: true
         core_compilers:
         - gcc@14.3.1
         hierarchy:

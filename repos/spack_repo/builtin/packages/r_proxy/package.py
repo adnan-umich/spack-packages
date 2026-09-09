@@ -17,6 +17,7 @@ class RProxy(RPackage):
 
     license("GPL-2.0-only")
 
+    version("0.4-29", sha256="c6eb0e36ef2eecb1b8564f0188ca8d2c91a80865c86698386a7b5d5baa92c35b")
     version("0.4-27", sha256="249991a4c4d70ad139e93f3a24e17f161ad1ec854951813ea192daf79478563f")
     version("0.4-26", sha256="676bad821343974e0297a0566c4bf0cf0ea890104906a745b87d3b5989c81a4d")
     version("0.4-24", sha256="8cff9bf036475941a7c44ba9bb5e2f6d4777d49ab3daaeb52d23f4b2af6d9c7c")

@@ -357,7 +357,7 @@ class Lammps(CMakePackage, CudaPackage, PythonExtension):
         values=("kiss", "fftw3", "mkl", "mkl_gpu", "nvpl", "hipfft", "cufft"),
         multi=False,
     )
-    for cond in ("cuda", "rocm", "opencl"):
+    for cond in ("cuda", "opencl"): # used to also contain "rocm"
         variant("gpu", default=True, when=f"+{cond}", description="Activate the GPU package")
         variant(
             "gpu_precision",
