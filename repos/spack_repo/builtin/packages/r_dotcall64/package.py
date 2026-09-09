@@ -19,6 +19,7 @@ class RDotcall64(RPackage):
 
     cran = "dotCall64"
 
+    version("1.2", sha256="aad6ab571f30d4d191a9454cee278d57b478fb49d3f7b190593f317a0e4408aa")
     version("1.1-1", sha256="21b8d7d747c07aaf8a82d61ec98fe0539afcaa5a565d9c2fc55be65b6af2c91b")
     version("1.0-2", sha256="e0c7728aebbea5ebf06dfeefae4fc0a240e6dde7c2bf13f2ed041b91d337a4ac")
     version("1.0-1", sha256="f10b28fcffb9453b1d8888a72c8fd2112038b5ac33e02a481492c7bd249aa5c6")

@@ -20,6 +20,7 @@ class RReticulate(RPackage):
 
     license("Apache-2.0")
 
+    version("1.46.0", sha256="ddce0df52079ff6df2655e65e141d9f7c685ba3713200e65a69adeb5cde90765")
     version("1.38.0", sha256="cb2f313e2351a3cde03be55561b592318ec5376fba3b10e371eeff1986deca8d")
     version("1.28", sha256="58a299ed18faaa3ff14936752fcc2b86e64ae18fc9f36befdfd492ccb251516f")
     version("1.26", sha256="3fd74823bde1b0e094db7c2bf6b40ee2501f8d724b4c35b53da95c3c588c74c5")

@@ -29,7 +29,7 @@ spack:
     - diamond ^blast-plus@2.17.0+sqlite cxxflags="-fcoroutines" ^python@3.13.13+arc
     - blast2go ^blast-plus@2.17.0+sqlite cxxflags="-fcoroutines"
     - dorado@2.1
-    - rseurat@5.5.1 ^r@4.6.1/hsmq64i
+    - rseurat@5.5.1_R4.6.1 ^r@4.6.1/hsmq64i ^r-seurat/qzgh
     - elastix@5.2.0
     - plink2
     - gatk@4.5.0.0+r ^r/hsmq64i
@@ -53,7 +53,7 @@ spack:
     - mafft
     - mrbayes~mpi
     - sage ^rust@1.97.1
-    - spades cxxflags="-mno-avx512f" ^python+arc ^aocc
+    - spades/5gtlpf4 cxxflags="-mno-avx512f" ^python+arc ^aocc
     - subread
     - picard
     - vcftools
@@ -93,7 +93,6 @@ spack:
           intel-oneapi-compilers-classic: 'intel/{version}'
           miniforge3: 'mamba/{version}'
           py-mpi4py: 'mpi4py/{version}'
-          rseurat: "rseurat/{version}-R-{^r.version}"
         hash_length: 0
         core_compilers:
         - gcc@14.3.1
