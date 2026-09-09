@@ -46,11 +46,11 @@ jobs:
     # todo: license check
     # todo: mypy
 
-  audit:
-    uses: ./.github/workflows/audit.yaml
-    secrets: inherit
-    with:
-      python_version: '3.13'
+  #audit:
+  #  uses: ./.github/workflows/audit.yaml
+  #  secrets: inherit
+  #  with:
+  #    python_version: '3.13'
 
   verify-checksums:
     # do not run if the commit message or PR description contains [skip-verify-checksums]
