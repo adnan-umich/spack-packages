@@ -125,5 +125,6 @@ spack:
         - compiler-wrapper
         - util-macros
         - poppler-data
+        - python-venv
         gcc-runtime:
           template: gcc-runtime.lua

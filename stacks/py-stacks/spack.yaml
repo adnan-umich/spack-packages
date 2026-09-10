@@ -19,6 +19,7 @@ spack:
   - group: Python stacks
     specs:
     - py-globus-cli
+    - py-uv
     - awscli
     override:
       packages:
@@ -57,6 +58,7 @@ spack:
           miniforge3: mamba/{version}
           py-mpi4py: mpi4py/{version}
           py-globus-cli: globus-cli/{version}
+          py-uv: uv/{version}
         hash_length: 0
         hide_implicits: true
         core_compilers:

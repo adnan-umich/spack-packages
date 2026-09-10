@@ -81,10 +81,14 @@ spack:
       lmod:
         projections:
           r: 'R/{version}'
-          hdf5~threadsafe: 'hdf5/{version}-nonatomic'
+          hdf5~threadsafe+mpi: 'phdf5/{version}-nonatomic'
+          hdf5+threadsafe+mpi: 'phdf5/{version}'
+          hdf5~threadsafe~mpi: 'hdf5/{version}-nonatomic'
           intel-oneapi-compilers-classic: 'intel/{version}'
           miniforge3: 'mamba/{version}'
-          py-mpi4py: 'mpi4py/{version}' 
+          py-mpi4py: 'mpi4py/{version}'
+          intel-oneapi-mpi: 'impi/{version}'
+          gh: 'github-cli/{version}'
         hash_length: 0
         core_compilers:
           - gcc@14.3.1
