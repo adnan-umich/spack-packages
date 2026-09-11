@@ -19,6 +19,7 @@ spack:
   - group: bioinformatics
     specs:
     - bamtools
+    - homer
     - bcftools
     - beast1
     - bedtools2 ^python@3.13.13+arc

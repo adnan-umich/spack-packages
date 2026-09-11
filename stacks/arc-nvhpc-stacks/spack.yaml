@@ -1,0 +1,98 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  config:
+      install_tree:
+        root: /sw/spack/opt/pkgs
+  view: false
+  specs:
+  ##########################################################################################
+  #                                       Software                                         #
+  ##########################################################################################
+
+  - group: Base-nvhpc-Compiler
+    specs:
+    - fftw+mpi
+    - openblas@0.3.33
+    - openmpi@5.0.10
+    override:
+      packages:
+        c:
+          prefer: [nvhpc@26.5]
+        cxx:
+          prefer: [nvhpc@26.5]
+        fortran:
+          prefer: [nvhpc@26.5]
+        python:
+          require:
+          - "+arc"
+        openmpi:
+          require:
+          - "+arc"
+        r:
+          require:
+          - "+arc+X"
+        hdf5:
+          prefer:
+          - "+cxx+fortran+hl+mpi"
+        boost:
+          prefer:
+          - "~mpi"
+  concretizer:
+    unify: false
+    reuse: true
+    compiler_mixing: true
+    ##########################################################################################
+    #                                         Modules                                        #
+    ##########################################################################################
+  modules:
+    default:
+      roots:
+        lmod: /sw/spack/opt/modules
+        tcl: /sw/spack/opt/modules
+      lmod:
+        projections:
+          r: 'R/{version}'
+          hdf5~threadsafe+mpi: 'phdf5/{version}-nonatomic'
+          hdf5+threadsafe+mpi: 'phdf5/{version}'
+          hdf5~threadsafe~mpi: 'hdf5/{version}-nonatomic'
+          intel-oneapi-compilers-classic: 'intel/{version}'
+          miniforge3: 'mamba/{version}'
+          py-mpi4py: 'mpi4py/{version}'
+          intel-oneapi-mpi: 'impi/{version}'
+          gh: 'github-cli/{version}'
+        hash_length: 0
+        core_compilers:
+          - gcc@14.3.1
+        hierarchy:
+          - r
+          - mpi
+        filter_hierarchy_specs:
+          archivetar:
+            - mpi
+        archivetar:
+          autoload: none
+        core_specs:
+        - gcc@14.3.1
+        - gcc-runtime@14.3.1
+        - aocc@5.2.0
+        - nvhpc@26.5
+        exclude:
+        - gcc-runtime@14.3.1
+        - glibc
+        - autoconf
+        - compiler-wrapper
+        - util-macros
+        - py-pip
+        - py-setuptools
+        - py-wheel
+        - py-cython
+        - python-venv
+        gcc-runtime:
+          template: gcc-runtime.lua
+        openmpi@5.0.10+arc:
+          environment:
+            set:
+              UCX_LOG_LEVEL: error
