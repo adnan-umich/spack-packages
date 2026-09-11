@@ -57,6 +57,9 @@ class Mothur(MakefilePackage):
         # compile on newer compilers we'll use what's in usearch
         filter_file(" uchime", "", "Makefile")
         if spec.satisfies("+boost"):
+            # Boost.System is header-only starting with Boost 1.69.
+            if spec.satisfies("^boost@1.69:"):
+                filter_file(r"-lboost_system\b", "", "Makefile")
             filter_file(r"USEBOOST \?=.*$", "USEBOOST = yes", "Makefile")
             filter_file(
                 r"^BOOST_LIBRARY_DIR .*$",

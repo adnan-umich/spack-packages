@@ -96,6 +96,11 @@ class Gnuplot(AutotoolsPackage):
 
         options += self.with_or_without("readline", "prefix")
 
+        # The iconv_open configure probe does not include iconv.h and can
+        # find glibc's symbol even when GNU libiconv's header is used.
+        if spec["iconv"].name == "libiconv":
+            options.append("LIBS=" + spec["iconv"].libs.ld_flags)
+
         if spec.satisfies("+pbm"):
             options.append("--with-bitmap-terminals")
         else:

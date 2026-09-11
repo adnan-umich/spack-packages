@@ -6,8 +6,6 @@ spack:
   config:
     install_tree:
       root: /sw/spack/bioinformatics/opt/pkgs
-  mirrors:
-      buildcache: file:///sw/spack/buildcache
   upstreams:
     arc-compiler-stacks:
       install_tree: /sw/spack/opt/pkgs
@@ -27,13 +25,13 @@ spack:
     - blast-plus@2.17.0+sqlite
     - scons
     - diamond ^blast-plus@2.17.0+sqlite cxxflags="-fcoroutines" ^python@3.13.13+arc
-    - blast2go ^blast-plus@2.17.0+sqlite cxxflags="-fcoroutines"
+    - blast2go ^blast-plus@2.17.0+sqlite cxxflags="-fcoroutines" 
     - dorado@2.1
     - rseurat@5.5.1_R4.6.1 ^r@4.6.1/hsmq64i ^r-seurat/qzgh
     - elastix@5.2.0
-    - plink2
+    - plink2 ^openblas
     - gatk@4.5.0.0+r ^r/hsmq64i
-    - mothur@1.48.0+boost+gsl+hdf5 ^usearch@12 ^boost@1.80
+    - mothur@1.48.0+boost+gsl+hdf5 ^usearch@12 ^boost/vigykcw
     - rdeseq2@1.52
     - rsem ^zlib
     - bowtie
@@ -53,15 +51,16 @@ spack:
     - mafft
     - mrbayes~mpi
     - sage ^rust@1.97.1
-    - spades/5gtlpf4 cxxflags="-mno-avx512f" ^python+arc ^aocc
+    - spades cxxflags="-mno-avx512f" ^python+arc ^aocc
     - subread
     - picard
     - vcftools
     - exonerate
-    - py-quast
+    - py-quast ^mummer/i2fdrm6
     - glimmer
     - mummer
-    - py-nanoplot
+    - py-nanoplot ^flexiblas
+    - py-multiqc ^python@3.13.13+arc
     override:
       packages:
         c:
@@ -73,6 +72,9 @@ spack:
         apr-util:
           prefer:
           - '~crypto'    
+        openmpi:
+          require:
+          - '+arc'
   concretizer:
     unify: false
     reuse: true
@@ -93,6 +95,8 @@ spack:
           intel-oneapi-compilers-classic: 'intel/{version}'
           miniforge3: 'mamba/{version}'
           py-mpi4py: 'mpi4py/{version}'
+          py-nanoplot: 'nanoplot/{version}'
+          py-multiqc: 'multiqc/{version}'
         hash_length: 0
         core_compilers:
         - gcc@14.3.1
